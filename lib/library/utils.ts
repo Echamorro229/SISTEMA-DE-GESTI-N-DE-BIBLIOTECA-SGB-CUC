@@ -12,6 +12,7 @@ export function modalTitle(kind: ModalKind) {
     return: "Registrar devolucion",
     reservation: "Crear reserva",
     "confirm-reservation": "Confirmar reserva",
+    book: "Agregar libro",
     users: "Administrar usuarios",
     roles: "Administrar roles"
   };
@@ -22,4 +23,3 @@ export function modalTitle(kind: ModalKind) {
 export function makeLocalId() {
   return Date.now();
 }
-

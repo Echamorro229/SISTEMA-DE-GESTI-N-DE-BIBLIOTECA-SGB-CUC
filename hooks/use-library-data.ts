@@ -157,6 +157,32 @@ export function useLibraryData() {
     showToast("Prestamo registrado", `${bookTitle} quedo prestado a ${userName}.`);
   };
 
+  const createBook = async (book: Omit<Book, "id">) => {
+    const cleanBook = {
+      title: book.title.trim(),
+      author: book.author.trim(),
+      isbn: book.isbn.trim(),
+      category: book.category.trim(),
+      copies: Number(book.copies)
+    };
+
+    if (!cleanBook.title || !cleanBook.author || !cleanBook.isbn || !cleanBook.category || cleanBook.copies < 0) {
+      showToast("Libro no creado", "Completa todos los datos del libro correctamente.");
+      return;
+    }
+
+    if (isRemote) {
+      await libraryApi.createBook(cleanBook);
+      await refresh();
+    } else {
+      setBooks((current) => [{ ...cleanBook, id: String(makeLocalId()) }, ...current]);
+    }
+
+    addActivity(`Libro ${cleanBook.title} agregado al catalogo`);
+    setSection("catalogo");
+    showToast("Libro agregado", `${cleanBook.title} quedo disponible en el catalogo.`);
+  };
+
   const returnLoan = async (loanId: string | number) => {
     const loan = loans.find((item) => String(item.id) === String(loanId));
     if (!loan) return;
@@ -266,6 +292,7 @@ export function useLibraryData() {
     availabilityFilter,
     books,
     confirmReservation,
+    createBook,
     createLoan,
     createReservation,
     createRole,

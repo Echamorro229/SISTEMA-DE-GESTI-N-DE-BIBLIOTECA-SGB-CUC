@@ -85,4 +85,3 @@ Funciones SQL:
 - Estudiante: catalogo y reservas propias.
 
 Nota: actualmente los permisos se aplican principalmente en la interfaz. Para produccion real, el siguiente paso recomendado es agregar JWT y guards en NestJS.
-

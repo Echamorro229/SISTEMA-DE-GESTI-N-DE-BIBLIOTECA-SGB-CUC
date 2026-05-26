@@ -9,6 +9,7 @@ export type ModalKind =
   | "return"
   | "reservation"
   | "confirm-reservation"
+  | "book"
   | "users"
   | "roles";
 
@@ -71,4 +72,3 @@ export type NavItem = {
   label: string;
   icon: typeof Library;
 };
-

@@ -73,6 +73,11 @@ export const libraryApi = {
       body: JSON.stringify({ email })
     }),
   books: async () => request<RemoteBook[]>("/books"),
+  createBook: (book: Omit<Book, "id">) =>
+    request<RemoteBook>("/books", {
+      method: "POST",
+      body: JSON.stringify(book)
+    }),
   users: async () => {
     const users = await request<RemoteUser[]>("/users");
 

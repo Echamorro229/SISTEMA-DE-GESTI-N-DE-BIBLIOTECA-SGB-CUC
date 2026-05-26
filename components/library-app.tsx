@@ -110,6 +110,7 @@ export function LibraryApp() {
           kind={modal}
           onClose={closeModal}
           onConfirmReservation={library.confirmReservation}
+          onBookSubmit={library.createBook}
           onLoanSubmit={library.createLoan}
           onRecover={library.recover}
           onReservationSubmit={library.createReservation}

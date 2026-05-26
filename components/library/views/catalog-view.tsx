@@ -1,4 +1,4 @@
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Plus, Search } from "lucide-react";
 import { PermissionSet } from "@/lib/library/permissions";
 import { Book, ModalKind } from "@/lib/library/types";
 import { bookStatus } from "@/lib/library/utils";
@@ -43,6 +43,12 @@ export function CatalogView({
           <option>Prestado</option>
           <option>Reservar</option>
         </select>
+        {permissions.canManageBooks && (
+          <button className="primary-small" onClick={() => openModal("book")}>
+            <Plus size={17} />
+            Agregar libro
+          </button>
+        )}
       </section>
 
       <section className="book-grid">

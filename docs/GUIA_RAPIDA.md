@@ -83,3 +83,6 @@ npm.cmd run build
 npm.cmd run lint
 ```
 
+## 7. Agregar Libros
+
+Inicia sesion como `Administrador` o `Bibliotecario`, entra a `Catalogo` y presiona `Agregar libro`.

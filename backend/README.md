@@ -77,4 +77,3 @@ vercel.json
 ```
 
 En Vercel usa `backend` como root directory y configura las variables de entorno.
-

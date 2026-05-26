@@ -13,6 +13,7 @@ type ActionModalProps = {
   books: Book[];
   kind: ModalKind;
   onClose: () => void;
+  onBookSubmit: (book: Omit<Book, "id">) => Promise<void>;
   onConfirmReservation: (reservationId: string | number) => Promise<void>;
   onLoanSubmit: (user: string, book: string, due: string) => Promise<void>;
   onRecover: (email: string) => Promise<void>;
@@ -35,6 +36,7 @@ export function ActionModal({
   books,
   kind,
   onClose,
+  onBookSubmit,
   onConfirmReservation,
   onLoanSubmit,
   onRecover,
@@ -116,6 +118,43 @@ export function ActionModal({
               <input name="due" type="date" required defaultValue="2026-05-15" />
             </label>
             <button className="primary-action">Guardar prestamo</button>
+          </form>
+        )}
+
+        {kind === "book" && (
+          <form
+            className="form-stack"
+            onSubmit={handle((data) =>
+              onBookSubmit({
+                title: String(data.get("title") ?? ""),
+                author: String(data.get("author") ?? ""),
+                isbn: String(data.get("isbn") ?? ""),
+                category: String(data.get("category") ?? ""),
+                copies: Number(data.get("copies") ?? 0)
+              })
+            )}
+          >
+            <label>
+              Titulo
+              <input name="title" required placeholder="Titulo del libro" />
+            </label>
+            <label>
+              Autor
+              <input name="author" required placeholder="Autor" />
+            </label>
+            <label>
+              ISBN
+              <input name="isbn" required placeholder="978-000-000000-0" />
+            </label>
+            <label>
+              Categoria
+              <input name="category" required placeholder="Ej. Sistemas" />
+            </label>
+            <label>
+              Copias disponibles
+              <input name="copies" type="number" min={0} required defaultValue={1} />
+            </label>
+            <button className="primary-action">Guardar libro</button>
           </form>
         )}
 

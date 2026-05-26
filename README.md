@@ -14,6 +14,7 @@ Sistema de Gestion de Biblioteca para la Universidad de la Costa. Incluye fronte
 
 - Inicio de sesion con usuarios y roles.
 - Catalogo de libros con busqueda y disponibilidad.
+- Registro de nuevos libros en el catalogo.
 - Prestamos y devoluciones.
 - Reservas y confirmacion de reservas.
 - Gestion de usuarios, roles y contrasenas.
@@ -157,4 +158,3 @@ docs/DESPLIEGUE_GITHUB_VERCEL.md
 - No subir `.env`, `.env.local` ni `backend/.env`.
 - `SUPABASE_SERVICE_ROLE_KEY` solo debe estar en el backend.
 - Si una llave fue compartida por error, rotarla en Supabase y actualizar Vercel.
-

@@ -5,6 +5,7 @@ export type PermissionSet = {
   canReturnLoans: boolean;
   canCreateReservations: boolean;
   canConfirmReservations: boolean;
+  canManageBooks: boolean;
   canManageUsers: boolean;
   canManageRoles: boolean;
   canViewReports: boolean;
@@ -15,6 +16,7 @@ const basePermissions: PermissionSet = {
   canReturnLoans: false,
   canCreateReservations: false,
   canConfirmReservations: false,
+  canManageBooks: false,
   canManageUsers: false,
   canManageRoles: false,
   canViewReports: false
@@ -32,6 +34,7 @@ export function permissionsFor(user: User | null): PermissionSet {
         canReturnLoans: true,
         canCreateReservations: true,
         canConfirmReservations: true,
+        canManageBooks: true,
         canManageUsers: true,
         canManageRoles: true,
         canViewReports: true
@@ -43,6 +46,7 @@ export function permissionsFor(user: User | null): PermissionSet {
         canReturnLoans: true,
         canCreateReservations: true,
         canConfirmReservations: true,
+        canManageBooks: true,
         canManageUsers: true,
         canViewReports: true
       };
@@ -88,6 +92,7 @@ export function canOpenModal(kind: ModalKind, permissions: PermissionSet) {
     return: permissions.canReturnLoans,
     reservation: permissions.canCreateReservations,
     "confirm-reservation": permissions.canConfirmReservations,
+    book: permissions.canManageBooks,
     users: permissions.canManageUsers,
     roles: permissions.canManageRoles
   };
