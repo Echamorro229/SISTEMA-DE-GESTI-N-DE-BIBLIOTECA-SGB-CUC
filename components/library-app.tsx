@@ -116,6 +116,7 @@ export function LibraryApp() {
           onReturnSubmit={library.returnLoan}
           onRoleSubmit={library.createRole}
           onUserSubmit={library.createUser}
+          onUserPasswordSubmit={library.updateUserPassword}
           pendingReservations={library.pendingReservations}
           roles={library.roles}
           selectedBook={selectedBook}

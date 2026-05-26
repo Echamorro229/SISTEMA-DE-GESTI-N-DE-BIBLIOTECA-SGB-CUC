@@ -125,10 +125,15 @@ export const libraryApi = {
       };
     });
   },
-  createUser: (name: string, email: string, roleId: string) =>
+  createUser: (name: string, email: string, roleId: string, password?: string) =>
     request<RemoteUser>("/users", {
       method: "POST",
-      body: JSON.stringify({ name, email, roleId })
+      body: JSON.stringify({ name, email, roleId, password: password || undefined })
+    }),
+  updateUserPassword: (id: string, password: string) =>
+    request<RemoteUser>(`/users/${id}/password`, {
+      method: "PATCH",
+      body: JSON.stringify({ password })
     }),
   createRole: (name: string) =>
     request<Role>("/roles", {

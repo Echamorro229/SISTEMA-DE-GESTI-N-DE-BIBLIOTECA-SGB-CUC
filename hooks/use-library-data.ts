@@ -214,19 +214,19 @@ export function useLibraryData() {
     showToast("Reserva confirmada", `${reservation.book} quedo confirmado para ${reservation.user}.`);
   };
 
-  const createUser = async (name: string, email: string, roleName: string) => {
+  const createUser = async (name: string, email: string, roleName: string, password?: string) => {
     const role = roles.find((item) => item.name === roleName);
     if (!name || !email || !roleName) return;
 
     if (isRemote && role?.id) {
-      await libraryApi.createUser(name, email, role.id);
+      await libraryApi.createUser(name, email, role.id, password);
       await refresh();
     } else {
       setUsers((current) => [{ name, email, role: roleName }, ...current]);
     }
 
     addActivity(`${name} fue registrado como ${roleName}`);
-    showToast("Usuario creado", `${name} quedo disponible para prestamos y reservas.`);
+    showToast("Usuario creado", `${name} quedo disponible para prestamos, reservas e inicio de sesion.`);
   };
 
   const createRole = async (roleName: string) => {
@@ -241,6 +241,23 @@ export function useLibraryData() {
 
     addActivity(`Rol ${roleName} agregado`);
     showToast("Rol creado", `${roleName} quedo disponible para nuevos usuarios.`);
+  };
+
+  const updateUserPassword = async (userId: string, password: string) => {
+    const user = users.find((item) => item.id === userId);
+
+    if (!userId || !password || password.length < 6) {
+      showToast("Contrasena no actualizada", "La contrasena debe tener minimo 6 caracteres.");
+      return;
+    }
+
+    if (!isRemote) {
+      showToast("Modo demo", "Conecta Supabase para cambiar contrasenas reales.");
+      return;
+    }
+
+    await libraryApi.updateUserPassword(userId, password);
+    showToast("Contrasena actualizada", `${user?.name ?? "El usuario"} ya puede iniciar sesion con la nueva contrasena.`);
   };
 
   return {
@@ -274,6 +291,7 @@ export function useLibraryData() {
     setSection,
     setToast,
     toast,
+    updateUserPassword,
     users,
     loans
   };

@@ -44,4 +44,16 @@ export class UsersService {
 
     return data;
   }
+
+  async updatePassword(id: string, password: string) {
+    const { data, error } = await this.supabase.client
+      .from('users')
+      .update({ password_hash: await bcrypt.hash(password, 10) })
+      .eq('id', id)
+      .select('id, name, email, created_at, roles(id, name)')
+      .single();
+    if (error) throwSupabaseError(error);
+
+    return data;
+  }
 }

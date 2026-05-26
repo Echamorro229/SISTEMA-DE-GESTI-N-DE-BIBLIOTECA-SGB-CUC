@@ -785,6 +785,26 @@ tbody tr:hover {
   gap: 16px;
 }
 
+.form-sections {
+  display: grid;
+  gap: 20px;
+}
+
+.form-sections .form-stack {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.form-sections .form-stack:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.form-stack h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
 .form-stack label {
   display: grid;
   gap: 8px;

@@ -19,7 +19,8 @@ type ActionModalProps = {
   onReservationSubmit: (user: string, book: string) => Promise<void>;
   onReturnSubmit: (loanId: string | number) => Promise<void>;
   onRoleSubmit: (role: string) => Promise<void>;
-  onUserSubmit: (name: string, email: string, role: string) => Promise<void>;
+  onUserSubmit: (name: string, email: string, role: string, password?: string) => Promise<void>;
+  onUserPasswordSubmit: (userId: string, password: string) => Promise<void>;
   pendingReservations: Reservation[];
   roles: Role[];
   selectedBook: Book | null;
@@ -41,6 +42,7 @@ export function ActionModal({
   onReturnSubmit,
   onRoleSubmit,
   onUserSubmit,
+  onUserPasswordSubmit,
   pendingReservations,
   roles,
   selectedBook,
@@ -181,30 +183,64 @@ export function ActionModal({
         )}
 
         {kind === "users" && (
-          <form
-            className="form-stack"
-            onSubmit={handle((data) =>
-              onUserSubmit(String(data.get("name") ?? "").trim(), String(data.get("email") ?? "").trim(), String(data.get("role") ?? ""))
-            )}
-          >
-            <label>
-              Nombre
-              <input name="name" required placeholder="Nombre completo" />
-            </label>
-            <label>
-              Correo
-              <input name="email" type="email" required placeholder="usuario@cuc.edu.co" />
-            </label>
-            <label>
-              Rol
-              <select name="role" required>
-                {roles.map((role) => (
-                  <option key={role.name}>{role.name}</option>
-                ))}
-              </select>
-            </label>
-            <button className="primary-action">Crear usuario</button>
-          </form>
+          <div className="form-sections">
+            <form
+              className="form-stack"
+              onSubmit={handle((data) =>
+                onUserSubmit(
+                  String(data.get("name") ?? "").trim(),
+                  String(data.get("email") ?? "").trim(),
+                  String(data.get("role") ?? ""),
+                  String(data.get("password") ?? "")
+                )
+              )}
+            >
+              <h3>Crear usuario</h3>
+              <label>
+                Nombre
+                <input name="name" required placeholder="Nombre completo" />
+              </label>
+              <label>
+                Correo
+                <input name="email" type="email" required placeholder="usuario@cuc.edu.co" />
+              </label>
+              <label>
+                Rol
+                <select name="role" required>
+                  {roles.map((role) => (
+                    <option key={role.name}>{role.name}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Contrasena inicial
+                <input name="password" type="password" minLength={6} placeholder="Minimo 6 caracteres" />
+              </label>
+              <button className="primary-action">Crear usuario</button>
+            </form>
+
+            <form
+              className="form-stack"
+              onSubmit={handle((data) =>
+                onUserPasswordSubmit(String(data.get("userId") ?? ""), String(data.get("newPassword") ?? ""))
+              )}
+            >
+              <h3>Cambiar contrasena</h3>
+              <label>
+                Usuario
+                <select name="userId" required>
+                  {users.filter((user) => user.id).map((user) => (
+                    <option key={user.id} value={user.id}>{user.name} - {user.email}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Nueva contrasena
+                <input name="newPassword" type="password" required minLength={6} placeholder="Minimo 6 caracteres" />
+              </label>
+              <button className="primary-action">Actualizar contrasena</button>
+            </form>
+          </div>
         )}
 
         {kind === "roles" && (

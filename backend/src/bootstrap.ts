@@ -13,7 +13,14 @@ export function configureApp(app: INestApplication) {
     exclude: [{ path: '/', method: RequestMethod.GET }],
   });
   app.enableCors({
-    origin: Array.from(allowedOrigins),
+    origin: (origin: string | undefined, callback: (error: Error | null, allow?: boolean) => void) => {
+      if (!origin || allowedOrigins.has(origin) || origin.endsWith('.vercel.app')) {
+        callback(null, true);
+        return;
+      }
+
+      callback(null, false);
+    },
     credentials: true,
   });
   app.useGlobalPipes(

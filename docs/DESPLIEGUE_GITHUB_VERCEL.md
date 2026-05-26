@@ -125,6 +125,8 @@ FRONTEND_URL=https://tu-frontend.vercel.app,http://localhost:3000,http://127.0.0
 
 Redeploy del backend.
 
+El backend tambien acepta dominios terminados en `.vercel.app`, pero es buena practica dejar tu URL final en `FRONTEND_URL`.
+
 ## 6. Probar produccion
 
 Entra al frontend desplegado y prueba:
@@ -144,7 +146,32 @@ Revisa:
 - Prestamos, devoluciones y reservas actualizan datos.
 - Reportes reflejan los datos reales.
 
-## 7. Notas importantes
+## 7. Cambiar contrasenas
+
+`password_hash` no es la contrasena. Es un hash bcrypt.
+
+La forma mas facil es desde la app:
+
+1. Inicia sesion como `Administrador` o `Bibliotecario`.
+2. Ve a `Panel`.
+3. Abre `Usuarios`.
+4. En `Cambiar contrasena`, selecciona el usuario.
+5. Escribe la nueva contrasena.
+6. Presiona `Actualizar contrasena`.
+
+Tambien puedes usar el endpoint del backend:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "https://tu-backend.vercel.app/api/users/ID_DEL_USUARIO/password" `
+  -Method Patch `
+  -ContentType "application/json" `
+  -Body '{"password":"nueva123"}'
+```
+
+Tambien puedes crear usuarios desde la app con una `Contrasena inicial`.
+
+## 8. Notas importantes
 
 - `SUPABASE_SERVICE_ROLE_KEY` va solo en el backend.
 - `NEXT_PUBLIC_API_URL` si queda visible en el navegador; no pongas secretos ahi.

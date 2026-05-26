@@ -120,12 +120,109 @@ Para produccion cambia estas claves o elimina los usuarios de prueba.
 
 Si ya habias ejecutado el SQL antes de estos usuarios, vuelve a ejecutar `backend/supabase/schema.sql`. Los `on conflict` actualizan las contrasenas semilla sin duplicar usuarios.
 
+## Restablecer usuarios si no puedes entrar
+
+Si no puedes entrar, ejecuta en Supabase SQL Editor:
+
+```text
+backend/supabase/reset-usuarios.sql
+```
+
+Ese script no borra prestamos, reservas, actividades, libros ni usuarios existentes. Solo crea o actualiza los usuarios principales de acceso.
+
+Despues entra con:
+
+```text
+Administrador
+correo: admin@cuc.edu.co
+contrasena: Admin123
+
+Bibliotecario
+correo: bibliotecario@cuc.edu.co
+contrasena: Biblio123
+
+Directivo
+correo: directivo@cuc.edu.co
+contrasena: Directivo123
+
+Estudiante
+correo: estudiante@cuc.edu.co
+contrasena: Estudiante123
+```
+
 ## Distincion por rol en la app
 
 - `Administrador`: ve todos los modulos y puede administrar roles.
 - `Bibliotecario`: gestiona catalogo operativo, prestamos, devoluciones, reservas, usuarios y reportes; no administra roles.
 - `Directivo`: ve panel, catalogo y reportes; no ejecuta operaciones.
 - `Estudiante`: ve panel, catalogo y reservas; puede crear reservas con su propio usuario.
+
+## Contrasenas y `password_hash`
+
+La columna `password_hash` no guarda la contrasena real. Guarda un hash bcrypt.
+
+No escribas texto plano como:
+
+```text
+prueba
+123456
+```
+
+Eso no funcionara para iniciar sesion. Para cambiar una contrasena tienes tres opciones:
+
+### Opcion A: desde la app
+
+Esta es la forma recomendada si eres nuevo:
+
+1. Inicia sesion como `Administrador` o `Bibliotecario`.
+2. Entra a `Panel`.
+3. Presiona `Usuarios`.
+4. Para un usuario nuevo, llena `Contrasena inicial`.
+5. Para un usuario existente, baja a `Cambiar contrasena`.
+6. Selecciona el usuario.
+7. Escribe la nueva contrasena.
+8. Presiona `Actualizar contrasena`.
+
+No necesitas tocar `password_hash` en Supabase.
+
+### Opcion B: desde la API
+
+1. Busca el `id` del usuario en Supabase.
+2. Ejecuta:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "https://tu-backend.vercel.app/api/users/ID_DEL_USUARIO/password" `
+  -Method Patch `
+  -ContentType "application/json" `
+  -Body '{"password":"nueva123"}'
+```
+
+En local:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "http://localhost:4000/api/users/ID_DEL_USUARIO/password" `
+  -Method Patch `
+  -ContentType "application/json" `
+  -Body '{"password":"nueva123"}'
+```
+
+### Opcion C: generar hash y actualizar en Supabase
+
+Desde `backend/`:
+
+```powershell
+node -e "const bcrypt=require('bcryptjs'); console.log(bcrypt.hashSync('nueva123', 10))"
+```
+
+Copia el resultado y actualiza el usuario en Supabase:
+
+```sql
+update public.users
+set password_hash = 'HASH_GENERADO'
+where email = 'miguel.torres@cuc.edu.co';
+```
 
 ## Validar todo
 
