@@ -1,4 +1,4 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 export function configureApp(app: INestApplication) {
@@ -9,7 +9,9 @@ export function configureApp(app: INestApplication) {
   allowedOrigins.add('http://127.0.0.1:3000');
   allowedOrigins.add('http://localhost:3000');
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: '/', method: RequestMethod.GET }],
+  });
   app.enableCors({
     origin: Array.from(allowedOrigins),
     credentials: true,
