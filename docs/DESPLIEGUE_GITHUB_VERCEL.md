@@ -132,10 +132,10 @@ El backend tambien acepta dominios terminados en `.vercel.app`, pero es buena pr
 Entra al frontend desplegado y prueba:
 
 ```text
-admin@cuc.edu.co / admin123
-biblioteca@cuc.edu.co / biblioteca123
-directivo@cuc.edu.co / directivo123
-estudiante@cuc.edu.co / estudiante123
+admin@cuc.edu.co / Admin123
+bibliotecario@cuc.edu.co / Biblio123
+directivo@cuc.edu.co / Directivo123
+estudiante@cuc.edu.co / Estudiante123
 ```
 
 Revisa:

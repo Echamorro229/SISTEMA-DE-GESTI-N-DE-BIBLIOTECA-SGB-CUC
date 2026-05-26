@@ -17,8 +17,8 @@ test.describe("button behaviors", () => {
     await page.getByRole("button", { name: "Enviar enlace" }).click();
     await expect(page.getByRole("status")).toContainText("Recuperacion enviada");
 
-    await page.getByPlaceholder("usuario@cuc.edu.co").fill("biblioteca@cuc.edu.co");
-    await page.getByPlaceholder("********").fill("biblioteca123");
+    await page.getByPlaceholder("usuario@cuc.edu.co").fill("bibliotecario@cuc.edu.co");
+    await page.getByPlaceholder("********").fill("Biblio123");
     await page.getByRole("button", { name: "Entrar" }).click();
     await expect(page.getByRole("heading", { name: "Panel principal" })).toBeVisible();
 
@@ -78,8 +78,8 @@ test.describe("button behaviors", () => {
     test.skip(testInfo.project.name !== "mobile-chromium", "Mobile menu is covered only in the mobile project.");
 
     await page.goto("/");
-    await page.getByPlaceholder("usuario@cuc.edu.co").fill("biblioteca@cuc.edu.co");
-    await page.getByPlaceholder("********").fill("biblioteca123");
+    await page.getByPlaceholder("usuario@cuc.edu.co").fill("bibliotecario@cuc.edu.co");
+    await page.getByPlaceholder("********").fill("Biblio123");
     await page.getByRole("button", { name: "Entrar" }).click();
 
     await page.getByTitle("Abrir menu").click();

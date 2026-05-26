@@ -1,47 +1,32 @@
-# Instalacion y Ejecucion
+# Guia Rapida para Companeros
 
-## 1. Instalar Node.js
+Esta guia es para correr el proyecto sin leer toda la documentacion.
 
-En Windows puedes instalar Node.js LTS con:
-
-```powershell
-winget install OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agreements
-```
-
-Cierra y abre PowerShell despues de instalar.
-
-Verifica:
+## 1. Clonar
 
 ```powershell
-node --version
-npm.cmd --version
+git clone URL_DEL_REPOSITORIO
+cd "SISTEMA DE GESTION DE BIBLIOTECA"
 ```
 
-## 2. Instalar Dependencias
-
-Frontend:
+## 2. Instalar
 
 ```powershell
 npm.cmd install
-```
-
-Backend:
-
-```powershell
 cd backend
 npm.cmd install
 cd ..
 ```
 
-## 3. Variables de Entorno
+## 3. Configurar Variables
 
-Frontend: `.env.local`
+Crear `.env.local` en la raiz:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
 ```
 
-Backend: `backend/.env`
+Crear `backend/.env`:
 
 ```env
 SUPABASE_URL=https://tu-proyecto.supabase.co
@@ -50,15 +35,13 @@ PORT=4000
 FRONTEND_URL=http://localhost:3000,http://127.0.0.1:3000
 ```
 
-## 4. Base de Datos
-
-Configura Supabase con:
+Si no tienes Supabase configurado, sigue:
 
 ```text
 backend/supabase/INSTRUCCIONES.md
 ```
 
-## 5. Ejecutar
+## 4. Ejecutar
 
 Terminal 1:
 
@@ -79,6 +62,17 @@ Abrir:
 http://localhost:3000
 ```
 
+## 5. Usuarios
+
+Si ejecutaste `backend/supabase/reset-usuarios.sql`:
+
+```text
+admin@cuc.edu.co / Admin123
+bibliotecario@cuc.edu.co / Biblio123
+directivo@cuc.edu.co / Directivo123
+estudiante@cuc.edu.co / Estudiante123
+```
+
 ## 6. Validar
 
 ```powershell
@@ -89,6 +83,3 @@ npm.cmd run build
 npm.cmd run lint
 ```
 
-## 7. Nota sobre PowerShell
-
-Si `npm` falla por politicas de ejecucion, usa siempre `npm.cmd`.

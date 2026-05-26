@@ -1,120 +1,160 @@
 # SGB CUC
 
-Aplicacion para el Sistema de Gestion de Biblioteca de la Universidad de la Costa.
+Sistema de Gestion de Biblioteca para la Universidad de la Costa. Incluye frontend en Next.js, backend en NestJS y base de datos en Supabase/PostgreSQL.
 
-- Frontend: Next.js en la raiz del proyecto.
-- Backend: NestJS en `backend/`.
-- Base de datos: Supabase/PostgreSQL con instrucciones en `backend/supabase/INSTRUCCIONES.md`.
+## Tecnologias
+
+- Frontend: Next.js, React, TypeScript.
+- Backend: NestJS, TypeScript.
+- Base de datos: Supabase/PostgreSQL.
+- Pruebas E2E: Playwright.
+- Deploy: Vercel.
+
+## Funcionalidades
+
+- Inicio de sesion con usuarios y roles.
+- Catalogo de libros con busqueda y disponibilidad.
+- Prestamos y devoluciones.
+- Reservas y confirmacion de reservas.
+- Gestion de usuarios, roles y contrasenas.
+- Reportes operativos.
+- Interfaz responsive.
+
+## Roles
+
+- `Administrador`: acceso completo, incluyendo roles.
+- `Bibliotecario`: prestamos, devoluciones, reservas, usuarios y reportes.
+- `Directivo`: panel, catalogo y reportes.
+- `Estudiante`: panel, catalogo y reservas propias.
+
+## Estructura
+
+```text
+app/                 Pantallas Next.js
+components/          Componentes React
+hooks/               Hooks de frontend
+lib/                 Tipos, API y utilidades del frontend
+tests/               Pruebas Playwright
+backend/             API NestJS
+backend/src/         Modulos del backend
+backend/supabase/    SQL de base de datos
+docs/                Documentacion
+```
 
 ## Requisitos
 
-- Windows 10/11.
-- Node.js LTS instalado.
-- npm incluido con Node.js.
+- Node.js LTS.
+- npm.
+- Cuenta/proyecto en Supabase.
 
-## Instalacion de Node.js en Windows
+En Windows, si PowerShell bloquea `npm`, usa `npm.cmd`.
 
-La forma recomendada es usar `winget` desde PowerShell:
+## Configuracion Local
 
-```powershell
-winget install OpenJS.NodeJS.LTS --accept-package-agreements --accept-source-agreements
-```
-
-Despues de instalar, cierra y abre PowerShell para que Windows actualice el `PATH`.
-
-Verifica la instalacion:
-
-```powershell
-node --version
-npm.cmd --version
-```
-
-> En algunos equipos PowerShell bloquea `npm.ps1` por politica de ejecucion. En ese caso usa `npm.cmd`, por ejemplo `npm.cmd install`.
-
-## Instalacion del proyecto
-
-Desde la carpeta del proyecto:
+1. Instala dependencias del frontend:
 
 ```powershell
 npm.cmd install
 ```
 
-## Ejecutar en desarrollo
-
-```powershell
-npm.cmd run dev
-```
-
-Luego abre:
-
-```text
-http://localhost:3000
-```
-
-## Ejecutar el backend
-
-Primero configura Supabase siguiendo `backend/supabase/INSTRUCCIONES.md`.
+2. Instala dependencias del backend:
 
 ```powershell
 cd backend
 npm.cmd install
-Copy-Item .env.example .env
-npm.cmd run start:dev
+cd ..
 ```
 
-API:
+3. Configura Supabase siguiendo:
 
 ```text
-http://localhost:4000/api
+backend/supabase/INSTRUCCIONES.md
 ```
 
-Para conectar el frontend al backend crea `.env.local` en la raiz:
+4. Crea `.env.local` en la raiz:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:4000/api
 ```
 
-## Comandos utiles
+5. Crea `backend/.env`:
+
+```env
+SUPABASE_URL=https://tu-proyecto.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=tu-service-role-key
+PORT=4000
+FRONTEND_URL=http://localhost:3000,http://127.0.0.1:3000
+```
+
+## Ejecutar
+
+Backend:
 
 ```powershell
+cd backend
+npm.cmd run start:dev
+```
+
+Frontend, en otra terminal:
+
+```powershell
+npm.cmd run dev
+```
+
+Abrir:
+
+```text
+http://localhost:3000
+```
+
+Probar backend:
+
+```text
+http://localhost:4000/api/health
+```
+
+## Usuarios de Prueba
+
+Si ejecutaste `backend/supabase/reset-usuarios.sql`, puedes entrar con:
+
+```text
+admin@cuc.edu.co / Admin123
+bibliotecario@cuc.edu.co / Biblio123
+directivo@cuc.edu.co / Directivo123
+estudiante@cuc.edu.co / Estudiante123
+```
+
+## Comandos
+
+Frontend:
+
+```powershell
+npm.cmd run dev
 npm.cmd run build
 npm.cmd run lint
 npm.cmd run test:e2e
-npm.cmd audit
 ```
 
-## Pruebas de botones
-
-El proyecto incluye pruebas E2E con Playwright para validar los comportamientos principales de la interfaz:
-
-- Inicio de sesion y cierre de sesion.
-- Navegacion entre panel, catalogo, prestamos, reservas y reportes.
-- Busqueda y filtro del catalogo.
-- Botones de prestar, reservar, actualizar, notificaciones y acciones rapidas.
-- Menu movil.
-
-Ejecuta:
+Backend:
 
 ```powershell
-npm.cmd run test:e2e
+cd backend
+npm.cmd run start:dev
+npm.cmd run build
+npm.cmd run lint
 ```
 
-## Estado actual
+## Deploy
 
-- Frontend generado con Next.js, React y TypeScript.
-- Backend generado con NestJS y Supabase.
-- Pantalla de inicio de sesion.
-- Panel principal con indicadores.
-- Catalogo con busqueda.
-- Modulos visuales de prestamos, reservas y reportes.
-- Pruebas automatizadas para comportamientos de botones.
-- SQL de Supabase con tablas, funciones transaccionales y datos semilla.
-- El frontend esta organizado por modulos y usa el backend cuando esta disponible, con fallback local para demo.
-
-## Despliegue
-
-Guia para subir a GitHub y desplegar en Vercel:
+La guia para GitHub y Vercel esta en:
 
 ```text
 docs/DESPLIEGUE_GITHUB_VERCEL.md
 ```
+
+## Seguridad
+
+- No subir `.env`, `.env.local` ni `backend/.env`.
+- `SUPABASE_SERVICE_ROLE_KEY` solo debe estar en el backend.
+- Si una llave fue compartida por error, rotarla en Supabase y actualizar Vercel.
+

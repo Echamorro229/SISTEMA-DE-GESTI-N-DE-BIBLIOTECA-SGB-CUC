@@ -94,33 +94,33 @@ http://localhost:3000
 
 Si el backend no esta encendido, el frontend entra en modo demo local. Si `NEXT_PUBLIC_API_URL` apunta al backend y `/api/health` responde, usa Supabase.
 
-## Usuarios iniciales
+## Usuarios iniciales del `schema.sql`
 
 El SQL crea estos usuarios para probar la distincion por rol:
 
 ```text
 Administrador
 correo: admin@cuc.edu.co
-contrasena: admin123
+contrasena: Admin123
 
 Bibliotecario
-correo: biblioteca@cuc.edu.co
-contrasena: biblioteca123
+correo: bibliotecario@cuc.edu.co
+contrasena: Biblio123
 
 Directivo
 correo: directivo@cuc.edu.co
-contrasena: directivo123
+contrasena: Directivo123
 
 Estudiante
 correo: estudiante@cuc.edu.co
-contrasena: estudiante123
+contrasena: Estudiante123
 ```
 
 Para produccion cambia estas claves o elimina los usuarios de prueba.
 
 Si ya habias ejecutado el SQL antes de estos usuarios, vuelve a ejecutar `backend/supabase/schema.sql`. Los `on conflict` actualizan las contrasenas semilla sin duplicar usuarios.
 
-## Restablecer usuarios si no puedes entrar
+## Restablecer usuarios recomendados si no puedes entrar
 
 Si no puedes entrar, ejecuta en Supabase SQL Editor:
 

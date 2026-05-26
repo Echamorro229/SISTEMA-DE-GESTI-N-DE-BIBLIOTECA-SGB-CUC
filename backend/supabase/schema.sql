@@ -222,22 +222,22 @@ select 'Carlos Perez', 'carlos.perez@cuc.edu.co', roles.id from public.roles whe
 on conflict (email) do nothing;
 
 insert into public.users(name, email, role_id, password_hash)
-select 'Bibliotecario CUC', 'biblioteca@cuc.edu.co', roles.id, '$2b$10$L1pO1pD25ADzIWrA1M6IHeCvmZlmladZ6b7j1U2rDfIWw6rXpat3O'
+select 'Bibliotecario CUC', 'bibliotecario@cuc.edu.co', roles.id, '$2b$10$459p5ctvy/3wcTP7hDPpn.FyCIUn5n/JV/lNPyqFAwpt2vlsiEvd2'
 from public.roles where roles.name = 'Bibliotecario'
 on conflict (email) do update set password_hash = excluded.password_hash, role_id = excluded.role_id;
 
 insert into public.users(name, email, role_id, password_hash)
-select 'Administrador CUC', 'admin@cuc.edu.co', roles.id, '$2b$10$ovaI7kTx1AcU/qPh4QITV.ttOAo/VTCZc6q.881D1HvKYziB.YNvu'
+select 'Administrador CUC', 'admin@cuc.edu.co', roles.id, '$2b$10$8iTtB3VuET9f3/QFwFIEMeqUfixV/Rycevz547/JrVQQzzk9IQprO'
 from public.roles where roles.name = 'Administrador'
 on conflict (email) do update set password_hash = excluded.password_hash, role_id = excluded.role_id;
 
 insert into public.users(name, email, role_id, password_hash)
-select 'Directivo CUC', 'directivo@cuc.edu.co', roles.id, '$2b$10$XG4.XMKQ13GiXp4m2YBZ5O0UgpceNhmZUFBMBNRTnL48I8Wuc/oFe'
+select 'Directivo CUC', 'directivo@cuc.edu.co', roles.id, '$2b$10$4g8K2oWLkxjtllYkrimZiuMBZ/DiIjwYNeRA2E8v/2zp0TgNWHwp2'
 from public.roles where roles.name = 'Directivo'
 on conflict (email) do update set password_hash = excluded.password_hash, role_id = excluded.role_id;
 
 insert into public.users(name, email, role_id, password_hash)
-select 'Estudiante Demo', 'estudiante@cuc.edu.co', roles.id, '$2b$10$s3tCZZMZeyjopptjDSkr3OizvCZoI7sIQ/n.jCG5sjVcFblJI23W.'
+select 'Estudiante CUC', 'estudiante@cuc.edu.co', roles.id, '$2b$10$yQBnNeeRnNTQcJ/DvsxjbuDN23LGv/UEPnWnwEb7Vl.RfYtMKuvjC'
 from public.roles where roles.name = 'Estudiante'
 on conflict (email) do update set password_hash = excluded.password_hash, role_id = excluded.role_id;
 

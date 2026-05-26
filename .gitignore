@@ -8,6 +8,8 @@ out/
 # production
 build/
 dist/
+.vercel/
+backend/.vercel/
 
 # testing
 coverage/
