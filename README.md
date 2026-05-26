@@ -1,6 +1,10 @@
-# SGB CUC Frontend
+# SGB CUC
 
-Frontend en Next.js para el Sistema de Gestion de Biblioteca de la Universidad de la Costa.
+Aplicacion para el Sistema de Gestion de Biblioteca de la Universidad de la Costa.
+
+- Frontend: Next.js en la raiz del proyecto.
+- Backend: NestJS en `backend/`.
+- Base de datos: Supabase/PostgreSQL con instrucciones en `backend/supabase/INSTRUCCIONES.md`.
 
 ## Requisitos
 
@@ -47,6 +51,29 @@ Luego abre:
 http://localhost:3000
 ```
 
+## Ejecutar el backend
+
+Primero configura Supabase siguiendo `backend/supabase/INSTRUCCIONES.md`.
+
+```powershell
+cd backend
+npm.cmd install
+Copy-Item .env.example .env
+npm.cmd run start:dev
+```
+
+API:
+
+```text
+http://localhost:4000/api
+```
+
+Para conectar el frontend al backend crea `.env.local` en la raiz:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+```
+
 ## Comandos utiles
 
 ```powershell
@@ -75,9 +102,19 @@ npm.cmd run test:e2e
 ## Estado actual
 
 - Frontend generado con Next.js, React y TypeScript.
+- Backend generado con NestJS y Supabase.
 - Pantalla de inicio de sesion.
 - Panel principal con indicadores.
 - Catalogo con busqueda.
 - Modulos visuales de prestamos, reservas y reportes.
 - Pruebas automatizadas para comportamientos de botones.
-- Datos simulados, sin backend conectado todavia.
+- SQL de Supabase con tablas, funciones transaccionales y datos semilla.
+- El frontend esta organizado por modulos y usa el backend cuando esta disponible, con fallback local para demo.
+
+## Despliegue
+
+Guia para subir a GitHub y desplegar en Vercel:
+
+```text
+docs/DESPLIEGUE_GITHUB_VERCEL.md
+```

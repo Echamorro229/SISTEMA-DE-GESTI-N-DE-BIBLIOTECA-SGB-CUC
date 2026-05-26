@@ -6,12 +6,19 @@ test.describe("button behaviors", () => {
 
     await page.goto("/");
 
+    await page.getByPlaceholder("usuario@cuc.edu.co").fill("noexiste@cuc.edu.co");
+    await page.getByPlaceholder("********").fill("incorrecta");
+    await page.getByRole("button", { name: "Entrar" }).click();
+    await expect(page.getByText("El usuario no existe o la contrasena es incorrecta.")).toBeVisible();
+
     await page.getByRole("button", { name: "Recuperar" }).click();
     await expect(page.getByRole("dialog")).toContainText("Recuperar acceso");
     await page.getByRole("dialog").getByPlaceholder("usuario@cuc.edu.co").fill("edinson@cuc.edu.co");
     await page.getByRole("button", { name: "Enviar enlace" }).click();
     await expect(page.getByRole("status")).toContainText("Recuperacion enviada");
 
+    await page.getByPlaceholder("usuario@cuc.edu.co").fill("biblioteca@cuc.edu.co");
+    await page.getByPlaceholder("********").fill("biblioteca123");
     await page.getByRole("button", { name: "Entrar" }).click();
     await expect(page.getByRole("heading", { name: "Panel principal" })).toBeVisible();
 
@@ -21,10 +28,9 @@ test.describe("button behaviors", () => {
 
     await page.getByRole("button", { name: /Nuevo prestamo/ }).click();
     await expect(page.getByRole("dialog")).toContainText("Registrar prestamo");
-    await page.getByLabel("Usuario").fill("Usuario Prueba Prestamo");
     await page.getByRole("button", { name: "Guardar prestamo" }).click();
     await expect(page.getByRole("heading", { name: "Gestion de prestamos" })).toBeVisible();
-    await expect(page.getByRole("cell", { name: "Usuario Prueba Prestamo" })).toBeVisible();
+    await expect(page.getByText("Prestamo registrado")).toBeVisible();
 
     await page.getByRole("button", { name: "Registrar devolucion" }).click();
     await expect(page.getByRole("dialog")).toContainText("Registrar devolucion");
@@ -34,16 +40,13 @@ test.describe("button behaviors", () => {
     await page.getByRole("button", { name: "Panel" }).click();
     await page.getByRole("button", { name: /Usuarios/ }).click();
     await expect(page.getByRole("dialog")).toContainText("Administrar usuarios");
+    const uniqueEmail = `nuevo.usuario.${Date.now()}@cuc.edu.co`;
     await page.getByLabel("Nombre").fill("Nuevo Usuario CUC");
-    await page.getByLabel("Correo").fill("nuevo.usuario@cuc.edu.co");
+    await page.getByLabel("Correo").fill(uniqueEmail);
     await page.getByRole("button", { name: "Crear usuario" }).click();
     await expect(page.getByRole("status")).toContainText("Usuario creado");
 
-    await page.getByRole("button", { name: /Roles/ }).click();
-    await expect(page.getByRole("dialog")).toContainText("Administrar roles");
-    await page.getByLabel("Nuevo rol").fill("Coordinador");
-    await page.getByRole("button", { name: "Crear rol" }).click();
-    await expect(page.getByRole("status")).toContainText("Rol creado");
+    await expect(page.getByRole("button", { name: /Roles/ })).toHaveCount(0);
 
     await page.getByRole("button", { name: "Catalogo" }).click();
     await expect(page.getByRole("heading", { name: "Catalogo de libros" })).toBeVisible();
@@ -54,10 +57,9 @@ test.describe("button behaviors", () => {
     await page.getByLabel("Filtro de disponibilidad").selectOption("Reservar");
     await page.getByRole("button", { name: "Reservar" }).click();
     await expect(page.getByRole("dialog")).toContainText("Crear reserva");
-    await page.getByLabel("Usuario").fill("Usuario Reserva");
     await page.getByRole("button", { name: "Guardar reserva" }).click();
     await expect(page.getByRole("heading", { name: "Gestion de reservas" })).toBeVisible();
-    await expect(page.getByRole("cell", { name: "Usuario Reserva" })).toBeVisible();
+    await expect(page.getByText("Reserva creada")).toBeVisible();
 
     await page.getByRole("button", { name: "Confirmar reserva" }).click();
     await expect(page.getByRole("dialog")).toContainText("Confirmar reserva");
@@ -76,6 +78,8 @@ test.describe("button behaviors", () => {
     test.skip(testInfo.project.name !== "mobile-chromium", "Mobile menu is covered only in the mobile project.");
 
     await page.goto("/");
+    await page.getByPlaceholder("usuario@cuc.edu.co").fill("biblioteca@cuc.edu.co");
+    await page.getByPlaceholder("********").fill("biblioteca123");
     await page.getByRole("button", { name: "Entrar" }).click();
 
     await page.getByTitle("Abrir menu").click();
